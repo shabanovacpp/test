@@ -37,6 +37,7 @@ ChartView {
     animationOptions: ChartView.NoAnimation
     theme: ChartView.ChartThemeDark
     property string name: ""
+    property string color: ""
     property int timeLength: 1024
 
     ValueAxis {
@@ -57,6 +58,8 @@ ChartView {
         name: chartView.name
         axisX: axisX
         axisY: axisY
+        color: chartView.color;
+        width: 2
 
     }
 //![1]
@@ -74,7 +77,7 @@ ChartView {
     //![2]
 
     //![3]
-    function changeSeriesType(type) {
+    function changeSeriesType(type, name) {
         chartView.removeAllSeries();
 
         // Create two new series of the correct type. Axis x is the same for both of the series,
@@ -82,15 +85,17 @@ ChartView {
         // of the "signal sources".
         if (type === "line")
         {
-            var series2 = chartView.createSeries(ChartView.SeriesTypeLine, "signal",
+            var series = chartView.createSeries(ChartView.SeriesTypeLine, name,
                                                  axisX, axisY);
+            series.color = chartView.color;
         }
         else
         {
-            var series2 = chartView.createSeries(ChartView.SeriesTypeScatter, "signal",
+            var series = chartView.createSeries(ChartView.SeriesTypeScatter, name,
                                                  axisX, axisY);
-            series2.markerSize = 2;
-            series2.borderColor = "transparent";
+            series.markerSize = 1;
+            series.borderColor = chartView.color;
+            series.color = chartView.color;
         }
     }
 

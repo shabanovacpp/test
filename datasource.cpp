@@ -93,7 +93,7 @@ void DataSource::generateData(int type, int rowCount, int colCount)
     m_data_fft.clear();
 
     // Append the new data depending on the type
-    for (int i(0); i < rowCount; i++) {
+    for (int i = 0; i < rowCount; i++) {
 
         QVector<QPointF> points_function;
         QVector<QPointF> points_convolution;
@@ -102,9 +102,9 @@ void DataSource::generateData(int type, int rowCount, int colCount)
         points_convolution.reserve(colCount);
         points_fft.reserve(colCount);
 
-        vectorKek.push_back(points_function);
-
-        for (int j(0); j < colCount; j++) {
+        //vectorKek.push_back(points_function);
+        for (int j = 0; j < colCount; j++)
+        {
             qreal x_function(0);
             qreal y_function(0);
             qreal x_convolution(0);
@@ -114,23 +114,21 @@ void DataSource::generateData(int type, int rowCount, int colCount)
             switch (type) {
             case 0:
                 // beats data
-                y_function = qCos(M_PI / (timeLength/100) * j)*qCos(M_PI / (timeLength/10) * j) + QRandomGenerator::global()->generateDouble()/5;
+                y_function = qCos(M_PI / (colCount/100) * j)*qCos(M_PI / (colCount/10) * j) + QRandomGenerator::global()->generateDouble()/5;
                 x_function = j;
                 x_convolution = j;
                 y_convolution = y_function*qSin(M_PI / 50 * j);
                 x_fft = j;
-                y_fft = 10*y_function/((j+timeLength/2)/10 - 100);
+                y_fft = 10*y_function/((j+colCount/2)/10 - 100);
                 break;
             case 1:
                 // sin data
                 x_function = j;
                 y_function = qSin(M_PI / 50 * j) +  QRandomGenerator::global()->generateDouble()/3;
                 x_convolution = j;
-                y_convolution = y_function*qSin(M_PI / 500 * j);
-                x_fft = j*qSin(j/5)+timeLength/2;
-                y_fft = j*qCos(j/5)/50;
-
-
+                y_convolution = y_function*qSin(M_PI / 512 * j);
+                x_fft = colCount/4096.0*j*qSin(M_PI / 180*j)+colCount/2;
+                y_fft = j*qCos(M_PI / 180*j)/256+ QRandomGenerator::global()->generateDouble()/5;
                 break;
             default:
                 // unknown, do nothing

@@ -32,8 +32,10 @@ import QtQuick 2.0
 //![1]
 Item {
     id: main
-    width: 1280
-    height: 720
+    width: 1980
+    height: 1150
+
+
 
     ControlPanel {
         id: controlPanel
@@ -50,16 +52,35 @@ Item {
             else
                 dataSource.generateData(0, signalCount, sampleCount);
             scopeView1.axisX().max = sampleCount;
+            scopeView2.axisX().max = sampleCount;
+            scopeView3.axisX().max = sampleCount;
         }
-        onSeriesTypeChanged: scopeView1.changeSeriesType(type);
+        onSeriesTypeChanged: {
+            scopeView1.changeSeriesType(type, scopeView1.name);
+            scopeView2.changeSeriesType(type, scopeView2.name);
+            scopeView3.changeSeriesType(type, scopeView3.name);
+        }
+
+
         onRefreshRateChanged: scopeView1.changeRefreshRate(rate);
 
     }
 
 //![2]
     ScopeView {
+        id: scopeView1
+        name: "signal"
+        color: "#38ad6b"
+        anchors.top: parent.top
+        anchors.right: controlPanel.left
+        anchors.left: parent.left
+        width: main.width
+        height: main.height/2
+    }
+    ScopeView {
         id: scopeView2
         name: "convolution"
+        color: "#C1DFF9"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         width: (main.width - controlPanel.width)/2
@@ -69,21 +90,13 @@ Item {
     ScopeView {
         id: scopeView3
         name: "fft"
+        color: "#bccccb"
         anchors.bottom: parent.bottom
         anchors.right: controlPanel.left
         width: (main.width - controlPanel.width)/2
         height: main.height/2
     }
 
-    ScopeView {
-        id: scopeView1
-        name: "signal"
-        anchors.top: parent.top
-        anchors.right: controlPanel.left
-        anchors.left: parent.left
-        width: main.width
-        height: main.height/2
-    }
 //![2]
 
 }

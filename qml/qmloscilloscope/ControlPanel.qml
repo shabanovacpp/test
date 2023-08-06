@@ -72,10 +72,15 @@ ColumnLayout {
         text: "Samples: "
         items: ["64", "128", "256", "512", "1024"]
         currentSelection: 4
-        onSelectionChanged: signalSourceChanged(
-                                signalSourceButton.items[signalSourceButton.currentSelection],
-                                5,
-                                selection);
+        onSelectionChanged: {
+            scopeView1.timeLength = selection;
+            scopeView2.timeLength = selection;
+            scopeView3.timeLength = selection;
+            signalSourceChanged(
+            signalSourceButton.items[signalSourceButton.currentSelection],
+            5,
+            selection);
+                            }
     }
 
     MultiButton {

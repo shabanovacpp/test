@@ -64,7 +64,7 @@ private:
     int m_index_fft;
 
     unsigned int timeLength = 1024;
-    QVector<QVector<QPointF>> vectorKek;
+    //QVector<QVector<QPointF>> vectorKek;
 };
 
 #endif // DATASOURCE_H
